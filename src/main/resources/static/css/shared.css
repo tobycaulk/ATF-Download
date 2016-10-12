@@ -1,0 +1,28 @@
+@import url(https://fonts.googleapis.com/css?family=Rock+Salt);
+
+#atf-main-heading {
+	font-size: 500%;
+	text-align: center;
+}
+
+#atf-main-subhead {
+	font-size: 300%;
+	text-align: center;
+}
+
+.center-div {
+	margin: 0 auto;
+    width:80%
+}
+
+.nav-aft-main-heading-social-icon {
+	padding-right: 40px;
+}
+
+.center-text {
+	text-align: center;
+}
+
+input[type="text"] {
+    text-align:center
+}
