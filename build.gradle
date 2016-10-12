@@ -28,6 +28,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-thymeleaf")
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.tinylog:tinylog:1.1")
-	
+    compile group: 'com.dropbox.core',  name: 'dropbox-core-sdk',   version: '[1.7,1.8)'
+    
     testCompile("junit:junit")
 }

@@ -1,10 +1,14 @@
 package com.atf.otd.service;
 
+import java.io.ByteArrayOutputStream;
+
 import org.pmw.tinylog.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.atf.otd.controller.request.EmailRequest;
 import com.atf.otd.controller.request.OneTimeDownloadRequest;
+import com.atf.otd.dropbox.DropboxServiceImpl;
 
 @Service
 public class OneTimeDownloadServiceImpl implements OneTimeDownloadService {
@@ -15,6 +19,9 @@ public class OneTimeDownloadServiceImpl implements OneTimeDownloadService {
 			"i8t8ou", "8k6pmr", "255tkw", "o8vx5k", "6xki38", "sr9jdv", "ib4s6m", "nmjv9a", "kfsctk", "ok2gnv",
 			"7opd36", "u88kja", "humecr", "mwjxog", "83bdtn", "o3hs6x", "sajvei", "bt9g2u", "rvx9h6", "d9ukan",
 			"uk66cx" };
+	
+	@Autowired
+	private DropboxServiceImpl dbService;
 	
 	@Override
 	public boolean validateId(OneTimeDownloadRequest otd) {
@@ -34,5 +41,10 @@ public class OneTimeDownloadServiceImpl implements OneTimeDownloadService {
 		boolean success = true;
 		Logger.info("!!EMAIL ADDRESS!! [" + email.getEmailAddress() + "]");
 		return success;
+	}
+
+	@Override
+	public ByteArrayOutputStream getSFMStream() {
+		return dbService.getSFMStream();
 	}
 }

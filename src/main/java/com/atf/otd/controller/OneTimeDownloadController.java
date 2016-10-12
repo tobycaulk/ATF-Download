@@ -1,5 +1,11 @@
 package com.atf.otd.controller;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.pmw.tinylog.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,16 +30,21 @@ public class OneTimeDownloadController {
 	}
 	
 	@RequestMapping(value="/", method=RequestMethod.POST)
-	public String indexResponse(@ModelAttribute OneTimeDownloadRequest otd, Model model) {
+	public String indexResponse(@ModelAttribute OneTimeDownloadRequest otd) {
 		String page = "error";
 		
 		boolean validCode = otdService.validateId(otd);
 		if(validCode) {
-			page = "download";
-			model.addAttribute("email", new EmailRequest());
+			page = "redirect:/download";
 		}
 		
 		return page;
+	}
+	
+	@RequestMapping(value="/download", method=RequestMethod.GET)
+	public String downloadRequest(Model model) {
+		model.addAttribute("email", new EmailRequest());
+		return "download";
 	}
 	
 	@RequestMapping(value="/email", method=RequestMethod.POST)
@@ -46,5 +57,20 @@ public class OneTimeDownloadController {
 		}
 
 		return page;
+	}
+	
+	@RequestMapping(value="/downloadSFM", method=RequestMethod.GET)
+	public void downloadSFMRequest(HttpServletResponse response) {
+		ByteArrayOutputStream stream = otdService.getSFMStream();
+		
+		try {
+			response.setContentType("octet/stream");
+			response.setHeader("Content-disposition", "attachment; filename=" + "SummerForMonths.mp3");
+			response.getOutputStream().write(stream.toByteArray());
+			response.getOutputStream().close();
+			response.flushBuffer();
+		} catch (IOException e) {
+			Logger.error("Could not write bytearray to response");
+		}
 	}
 }
